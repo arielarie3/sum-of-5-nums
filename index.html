@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="בודק אוטומטי לתרגיל סכום 5 מספרים חיוביים בשפת C - קבל ציון ומשוב מיידי על הקוד שלך">
+    <title>בודק אוטומטי - סכום 5 מספרים חיוביים ב-C</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="footer footer-top">
+        <p>© כל הזכויות שמורות לאריאל אריה האגדי והתותח 🚀</p>
+        <p>2025 בואכה 2026</p>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>בודק אוטומטי – סכום 5 מספרים חיוביים ב־C</h1>
+            <p class="subtitle">העלה את הקוד שלך וקבל ציון ומשוב מיידי</p>
+        </header>
+
+        <section class="exercise-description">
+            <h2>תיאור התרגיל</h2>
+            <div class="description-content">
+                <p><strong>המטרה:</strong> כתבו תוכנית בשפת C הקולטת מהמשתמש 5 מספרים חיוביים שלמים,
+                    עם בדיקת תקינות קלט, ומדפיסה את סכום המספרים.</p>
+                <ul>
+                    <li>הגדירו משתנים מתאימים, לדוגמה:
+                        <code>int num, sum = 0, count = 0;</code>
+                    </li>
+                    <li>בתוך לולאה, קלטו מספרים מהמשתמש עד שנקלטו <strong>5 מספרים חיוביים</strong>
+                        (גדולים מ־0).</li>
+                    <li>אם המשתמש הקליד מספר שאינו חיובי (0 או שלילי) –
+                        הציגו הודעת שגיאה מתאימה ובקשו ממנו להקליד שוב (אותו אינדקס לא נספר).</li>
+                    <li>לאחר שנקלטו בהצלחה 5 מספרים חיוביים – חשבו את הסכום שלהם והדפיסו אותו למסך.</li>
+                </ul>
+
+                <div class="example">
+                    <strong>דוגמה לקלט/פלט (רעיוני):</strong>
+                    <pre dir="ltr">
+Enter positive number: 3
+Enter positive number: -1
+Error: number must be positive, try again.
+Enter positive number: 7
+Enter positive number: 10
+Enter positive number: 2
+Enter positive number: 5
+
+sum = 27
+                    </pre>
+                </div>
+
+                <p><strong>הערה למשתמש:</strong> בסיום התוכנית מומלץ להדפיס את הסכום בפורמט
+                    כמו <code>sum = 27</code>.
+                    מערכת הבדיקה לוקחת את <u>המספר האחרון שמופיע בפלט</u> כסכום שהתקבל.</p>
+            </div>
+        </section>
+
+        <section class="code-editor-section">
+            <h2>הדבק את הקוד שלך כאן</h2>
+            <textarea id="codeEditor" dir="ltr" placeholder="// הדבק את הקוד שלך ב-C כאן...
+#include <stdio.h>
+
+int main() {
+    int num;
+    int sum = 0;
+    int count = 0;
+
+    // הקוד שלך...
+
+    return 0;
+}"></textarea>
+        </section>
+
+        <div class="actions">
+            <button id="runTests" class="run-button">הרץ בדיקות</button>
+            <div id="loadingIndicator" class="loading-indicator hidden">
+                <div class="spinner"></div>
+                <span>מריץ בדיקות...</span>
+            </div>
+        </div>
+
+        <section id="resultsSection" class="results-section hidden">
+            <h2>תוצאות הבדיקה</h2>
+
+            <div id="compilationResult" class="compilation-result">
+                <h3>תוצאת קומפילציה</h3>
+                <div id="compilationOutput" class="output-box"></div>
+            </div>
+
+            <div class="score-panel" id="scorePanel">
+                <div class="score-circle">
+                    <span id="scoreValue">0</span>
+                    <span class="score-max">/100</span>
+                </div>
+                <div id="scoreFeedback" class="score-feedback"></div>
+            </div>
+
+            <div class="test-results">
+                <h3>מקרי בדיקה</h3>
+                <table id="testResultsTable">
+                    <thead>
+                        <tr>
+                            <th>מס'</th>
+                            <th>שם הבדיקה</th>
+                            <th>קלט</th>
+                            <th>תוצאה</th>
+                            <th>פרטים</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testResultsBody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- JSCPP C++ Interpreter Library v2.0.6 -->
+    <script src="https://cdn.jsdelivr.net/npm/JSCPP@2.0.6/dist/JSCPP.es5.min.js"></script>
+    <script src="script.js"></script>
+
+    <div class="footer footer-top">
+        <p>© כל הזכויות שמורות לאריאל אריה האגדי והתותח 🚀</p>
+        <p>2025 בואכה 2026</p>
+    </div>
+</body>
+
+</html>
