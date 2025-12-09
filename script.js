@@ -93,7 +93,6 @@ async function runCProgram(cSource, input) {
                 stdout: stdout,
                 stderr: stderr
             });
-
         } catch (error) {
             const errorMsg = (error && error.message) ? error.message : String(error);
             console.error('❌ JSCPP error:', errorMsg);
@@ -127,9 +126,7 @@ function generateTestCases() {
             points: 25
         },
         {
-            // כאן אנחנו בודקים שהם באמת מתעקשים על חיובי:
-            // 0, -3, 5, 7, 8, 9, 10, 11...
-            // המספרים החיוביים הראשונים הם: 5, 7, 8, 9, 10 -> סכום 39
+            // 0, -3, 5, 7, 8, 9, 10, 11 -> החיוביים הראשונים: 5,7,8,9,10 = 39
             name: 'Test 3: קלט עם 0 ושלילי – בדיקת תקינות',
             input: '0\n-3\n5\n7\n8\n9\n10\n11\n',
             expectedSum: 39,
@@ -137,9 +134,7 @@ function generateTestCases() {
             isValidationTest: true
         },
         {
-            // כמה קלטים לא תקינים לפני החיוביים:
-            // -1, 0, -2, 0, 3, 4, 5, 6, 7
-            // 5 החיוביים הראשונים: 3,4,5,6,7 -> 25
+            // -1, 0, -2, 0, 3, 4, 5, 6, 7 -> החיוביים: 3,4,5,6,7 = 25
             name: 'Test 4: רצף עם מספר ניסיונות שגויים',
             input: '-1\n0\n-2\n0\n3\n4\n5\n6\n7\n',
             expectedSum: 25,
@@ -195,9 +190,10 @@ function extractSumFromOutput(stdout) {
         return { sum: null, allNumbers: [] };
     }
 
-    // נחפש את כל המספרים שנמצאו בפלט
     const matches = stdout.match(/-?\d+/g) || [];
-    const numbers = matches.map(m => parseInt(m, 10)).filter(n => !Number.isNaN(n));
+    const numbers = matches
+        .map(m => parseInt(m, 10))
+        .filter(n => !Number.isNaN(n));
 
     console.log('📤 All numbers parsed from output:', numbers);
 
@@ -205,7 +201,6 @@ function extractSumFromOutput(stdout) {
         return { sum: null, allNumbers: [] };
     }
 
-    // נגדיר שהמספר האחרון בפלט הוא הסכום
     const reportedSum = numbers[numbers.length - 1];
 
     return { sum: reportedSum, allNumbers: numbers };
@@ -246,24 +241,20 @@ function calculateScore(testResults, codeSource) {
         return sum + (test.passed ? (test.points || 0) : 0);
     }, 0);
 
-    // 80% – פונקציונליות (סכום נכון בכל מקרי הבדיקה)
+    // 80% – פונקציונליות
     const functionalScore = totalPoints > 0 ? (earnedPoints / totalPoints) * 80 : 0;
 
-    // 20% – איכות קוד (לולאה + בדיקת חיוביות)
+    // 20% – איכות קוד
     let qualityScore = 20;
 
     const hasLoop = /\b(for|while|do)\b/.test(codeSource);
-    if (!hasLoop) {
-        qualityScore -= 10;
-    }
+    if (!hasLoop) qualityScore -= 10;
 
-    // בדיקת חיוביות / תנאי על num > 0 וכדומה
-    const hasPositiveCheck = /\bif\s*\([^)]*(<=\s*0|<\s*1|num\s*<=\s*0|num\s*<\s*1)/.test(codeSource)
-        || /\bif\s*\([^)]*>\s*0/.test(codeSource);
+    const hasPositiveCheck =
+        /\bif\s*\([^)]*(<=\s*0|<\s*1|num\s*<=\s*0|num\s*<\s*1)/.test(codeSource) ||
+        /\bif\s*\([^)]*>\s*0/.test(codeSource);
 
-    if (!hasPositiveCheck) {
-        qualityScore -= 10;
-    }
+    if (!hasPositiveCheck) qualityScore -= 10;
 
     if (qualityScore < 0) qualityScore = 0;
 
@@ -307,8 +298,9 @@ function generateFeedback(testResults, score, codeSource) {
         feedback.push('נראה שאין שימוש בלולאה כדי לקלוט את המספרים. התרגיל דורש שימוש בלולאה עד שנקלטו 5 מספרים חיוביים.');
     }
 
-    const hasPositiveCheck = /\bif\s*\([^)]*(<=\s*0|<\s*1|num\s*<=\s*0|num\s*<\s*1)/.test(codeSource)
-        || /\bif\s*\([^)]*>\s*0/.test(codeSource);
+    const hasPositiveCheck =
+        /\bif\s*\([^)]*(<=\s*0|<\s*1|num\s*<=\s*0|num\s*<\s*1)/.test(codeSource) ||
+        /\bif\s*\([^)]*>\s*0/.test(codeSource);
     if (!hasPositiveCheck) {
         feedback.push('חסרה בדיקת תקינות על כך שהמספר חיובי. ודא שאתה בודק שהמספר גדול מ־0 לפני שאתה מוסיף אותו לסכום ומתקדם לספירה.');
     }
@@ -421,3 +413,25 @@ function displayError(errorMessage) {
         resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
 }
+
+// ========================================
+// Welcome Modal Logic – הצגה בכל ריענון
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('welcomeModal');
+    const btn = document.getElementById('enterAppButton');
+
+    if (!modal || !btn) return;
+
+    // ודא שהמודל מוצג כברירת מחדל בכל טעינה
+    modal.classList.remove('hidden-modal');
+
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // סגירת המודל (בטעינה הבאה שוב יופיע)
+        modal.classList.add('hidden-modal');
+    });
+});
